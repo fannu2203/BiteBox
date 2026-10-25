@@ -1,0 +1,2 @@
+import { Router } from 'express'; import { listProducts, myProducts, createProduct, updateProduct, deleteProduct } from '../controllers/productController.js'; import { protect, allowRoles } from '../middleware/auth.js';
+const router=Router(); router.get('/',listProducts); router.use(protect,allowRoles('vendor')); router.get('/mine',myProducts); router.post('/',createProduct); router.patch('/:id',updateProduct); router.delete('/:id',deleteProduct); export default router;

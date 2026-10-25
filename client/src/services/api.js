@@ -1,0 +1,3 @@
+const ROOT=import.meta.env.VITE_API_URL||'/api';
+export async function api(path,{method='GET',body,token,headers={}}={}){const res=await fetch(`${ROOT}${path}`,{method,headers:{...(body instanceof FormData?{}:{'Content-Type':'application/json'}),...(token?{Authorization:`Bearer ${token}`}:{}) ,...headers},...(body?{body:body instanceof FormData?body:JSON.stringify(body)}:{})});const type=res.headers.get('content-type')||'';if(!res.ok){const data=type.includes('json')?await res.json():{message:await res.text()};throw new Error(data.message||`Request failed (${res.status})`)}return type.includes('json')?res.json():res.blob()}
+export const money=n=>`Rs. ${Number(n||0).toLocaleString('en-PK',{maximumFractionDigits:0})}`;
